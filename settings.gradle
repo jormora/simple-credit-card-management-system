@@ -1,0 +1,5 @@
+rootProject.name = 'simple-credit-card-management-system'
+
+include 'cards'
+include 'operations'
+include 'statements'
