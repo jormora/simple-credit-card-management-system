@@ -1,4 +1,4 @@
-package com.module.service;
+package com.example.bank;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
