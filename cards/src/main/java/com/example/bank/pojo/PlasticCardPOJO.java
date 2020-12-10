@@ -13,6 +13,7 @@ public class PlasticCardPOJO extends PlasticCard {
         plasticCard.setColor(plasticCardPOJO.getColor());
         plasticCard.setImageURL(plasticCardPOJO.getImageURL());
         plasticCard.setOwnerName(plasticCardPOJO.getOwnerName());
+        plasticCard.setUsername(plasticCardPOJO.getUsername());
         plasticCard.setExpirationDate(plasticCardPOJO.getExpirationDate());
         return plasticCard;
     }
@@ -21,7 +22,7 @@ public class PlasticCardPOJO extends PlasticCard {
         if (plasticCardPOJO.getId() == null || plasticCardPOJO.getCode() == null ||
             plasticCardPOJO.getPassword() == null || plasticCardPOJO.getOwnerName() == null ||
             plasticCardPOJO.getColor() == null || plasticCardPOJO.getExpirationDate() == null ||
-            plasticCardPOJO.getImageURL() == null) {
+            plasticCardPOJO.getImageURL() == null || plasticCardPOJO.getUsername() == null) {
             return false;
         }
         if (plasticCardPOJO.getId() <= 0 || plasticCardPOJO.getCode() < 0) {

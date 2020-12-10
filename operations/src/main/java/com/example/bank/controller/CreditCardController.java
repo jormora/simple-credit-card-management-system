@@ -82,6 +82,7 @@ public class CreditCardController {
             return ResponseEntity.badRequest().body(CREDIT_CARD_NOT_FOUND);
         }
         if (!creditCard.isThereEnoughMoneyToWithdraw(amount)) {
+            this.statementProducer.send("Unsuccessful withdraw");
             LOGGER.info(NOT_ENOUGH_BALANCE);
             return ResponseEntity.badRequest().body(NOT_ENOUGH_BALANCE);
         }
@@ -94,7 +95,7 @@ public class CreditCardController {
         creditCard.withdraw(amount);
         this.creditCardService.save(creditCard);
 
-        this.statementProducer.send("Withdraw");
+        this.statementProducer.send("Successful withdraw");
         return ResponseEntity.ok(SUCCESSFUL_WITHDRAW);
     }
 
