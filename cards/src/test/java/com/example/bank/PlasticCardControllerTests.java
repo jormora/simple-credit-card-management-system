@@ -1,6 +1,7 @@
 package com.example.bank;
 
 import com.example.bank.model.PlasticCard;
+import com.example.bank.pojo.PlasticCardPOJO;
 import com.example.bank.service.PlasticCardService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -8,10 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.cloud.stream.messaging.Sink;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.integration.support.MessageBuilder;
+import org.springframework.messaging.MessageHeaders;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.util.MimeTypeUtils;
 
 import java.time.OffsetDateTime;
 
@@ -22,6 +27,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK, classes = CardsApplication.class)
 public class PlasticCardControllerTests {
+
+    @Autowired
+    private Sink sink;
 
     @Autowired
     private MockMvc mockMvc;
@@ -124,6 +132,25 @@ public class PlasticCardControllerTests {
                 .andExpect(status().isOk());
 
         assertNull(this.plasticCardService.findById(plasticCard.getId()));
+    }
+
+    @Test
+    void createPlasticCardAfterMessageFromOperationsModule() {
+        PlasticCardPOJO plasticCardPOJO = new PlasticCardPOJO();
+        plasticCardPOJO.setId(1);
+        plasticCardPOJO.setCode(12345);
+        plasticCardPOJO.setPassword("2345");
+        plasticCardPOJO.setOwnerName("Owner Name");
+        plasticCardPOJO.setUsername("username");
+        plasticCardPOJO.setColor("color");
+        plasticCardPOJO.setImageURL("URL");
+        plasticCardPOJO.setExpirationDate(OffsetDateTime.now().plusYears(4L));
+
+        this.sink.input().send(MessageBuilder.withPayload(plasticCardPOJO)
+            .setHeader("type", "create")
+            .setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON_VALUE).build());
+
+        assertNotNull(this.plasticCardService.findById(plasticCardPOJO.getId()));
     }
 
 }
