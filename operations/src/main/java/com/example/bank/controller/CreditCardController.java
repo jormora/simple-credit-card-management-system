@@ -4,12 +4,12 @@ import com.example.bank.model.CreditCard;
 import com.example.bank.model.User;
 import com.example.bank.model.Withdrawal;
 import com.example.bank.pojo.CreditCardPOJO;
+import com.example.bank.producer.StatementProducer;
 import com.example.bank.service.CreditCardService;
 import com.example.bank.service.UserService;
 import com.example.bank.service.WithdrawalService;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.OffsetDateTime;
@@ -44,10 +44,13 @@ public class CreditCardController {
 
     private final WithdrawalService withdrawalService;
 
-    public CreditCardController(UserService userService, CreditCardService creditCardService, WithdrawalService withdrawalService) {
+    private final StatementProducer statementProducer;
+
+    public CreditCardController(UserService userService, CreditCardService creditCardService, WithdrawalService withdrawalService, StatementProducer statementProducer) {
         this.userService = userService;
         this.creditCardService = creditCardService;
         this.withdrawalService = withdrawalService;
+        this.statementProducer = statementProducer;
     }
 
     @GetMapping(path = "/credit-card/{id}")
@@ -90,6 +93,8 @@ public class CreditCardController {
         this.withdrawalService.save(withdrawal);
         creditCard.withdraw(amount);
         this.creditCardService.save(creditCard);
+
+        this.statementProducer.send("Withdraw");
         return ResponseEntity.ok(SUCCESSFUL_WITHDRAW);
     }
 

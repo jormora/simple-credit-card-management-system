@@ -3,7 +3,7 @@ package com.example.bank.controller;
 import com.example.bank.model.User;
 import com.example.bank.pojo.PlasticCardPOJO;
 import com.example.bank.pojo.UserPOJO;
-import com.example.bank.producer.OperationsProducer;
+import com.example.bank.producer.PlasticCardProducer;
 import com.example.bank.service.UserService;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -27,11 +27,11 @@ public class UserController {
 
     private final UserService userService;
 
-    private final OperationsProducer operationsProducer;
+    private final PlasticCardProducer plasticCardProducer;
 
-    public UserController(UserService userService, OperationsProducer operationsProducer) {
+    public UserController(UserService userService, PlasticCardProducer plasticCardProducer) {
         this.userService = userService;
-        this.operationsProducer = operationsProducer;
+        this.plasticCardProducer = plasticCardProducer;
     }
 
     @GetMapping(path = "/user/{username}")
@@ -57,7 +57,7 @@ public class UserController {
 
     @PostMapping(path = "/plastic-card/create")
     public ResponseEntity<String> createPlasticCard(@RequestBody PlasticCardPOJO plasticCardPOJO) {
-        this.operationsProducer.getSource().output().send(MessageBuilder.withPayload(plasticCardPOJO)
+        this.plasticCardProducer.getSource().output().send(MessageBuilder.withPayload(plasticCardPOJO)
                 .setHeader("type", "create")
                 .setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON_VALUE).build());
         return ResponseEntity.ok("Enviado");
