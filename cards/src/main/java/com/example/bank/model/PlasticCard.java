@@ -18,6 +18,8 @@ public class PlasticCard implements Serializable {
     @Column(name = "owner_name")
     private String ownerName;
 
+    private String username;
+
     private String color;
 
     @Column(name = "image_url")
@@ -56,6 +58,14 @@ public class PlasticCard implements Serializable {
 
     public void setOwnerName(String ownerName) {
         this.ownerName = ownerName;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getColor() {

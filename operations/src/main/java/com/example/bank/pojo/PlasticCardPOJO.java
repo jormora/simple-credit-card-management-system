@@ -13,6 +13,8 @@ public class PlasticCardPOJO implements Serializable {
 
     private String ownerName;
 
+    private String username;
+
     private String color;
 
     private String imageURL;
@@ -53,6 +55,14 @@ public class PlasticCardPOJO implements Serializable {
 
     public void setOwnerName(String ownerName) {
         this.ownerName = ownerName;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getColor() {

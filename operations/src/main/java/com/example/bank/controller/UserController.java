@@ -57,6 +57,10 @@ public class UserController {
 
     @PostMapping(path = "/plastic-card/create")
     public ResponseEntity<String> createPlasticCard(@RequestBody PlasticCardPOJO plasticCardPOJO) {
+        if (this.userService.findByUsername(plasticCardPOJO.getUsername()) == null) {
+            LOGGER.info(USER_NOT_FOUND);
+            return ResponseEntity.badRequest().body(USER_NOT_FOUND);
+        }
         this.plasticCardProducer.getSource().output().send(MessageBuilder.withPayload(plasticCardPOJO)
                 .setHeader("type", "create")
                 .setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON_VALUE).build());
