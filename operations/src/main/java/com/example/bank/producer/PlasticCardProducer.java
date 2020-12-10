@@ -4,11 +4,11 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Source;
 
 @EnableBinding(Source.class)
-public class OperationsProducer {
+public class PlasticCardProducer {
 
     private final Source source;
 
-    public OperationsProducer(Source source) {
+    public PlasticCardProducer(Source source) {
         this.source = source;
     }
 
