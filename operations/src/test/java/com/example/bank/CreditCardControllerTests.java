@@ -1,12 +1,13 @@
 package com.example.bank;
 
-import com.example.bank.model.CreditCard;
-import com.example.bank.model.User;
-import com.example.bank.model.Withdrawal;
-import com.example.bank.pojo.CreditCardPOJO;
-import com.example.bank.service.CreditCardService;
-import com.example.bank.service.UserService;
-import com.example.bank.service.WithdrawalService;
+import com.example.bank.operations.model.CreditCard;
+import com.example.bank.operations.model.User;
+import com.example.bank.operations.model.Withdrawal;
+import com.example.bank.operations.OperationsApplication;
+import com.example.bank.operations.pojo.CreditCardPOJO;
+import com.example.bank.operations.service.CreditCardService;
+import com.example.bank.operations.service.UserService;
+import com.example.bank.operations.service.WithdrawalService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.time.OffsetDateTime;
 import java.util.List;
 

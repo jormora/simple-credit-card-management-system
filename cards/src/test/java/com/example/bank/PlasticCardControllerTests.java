@@ -1,8 +1,8 @@
 package com.example.bank;
 
 import com.example.bank.model.PlasticCard;
-import com.example.bank.pojo.PlasticCardPOJO;
-import com.example.bank.service.PlasticCardService;
+import com.example.bank.operations.pojo.PlasticCardPOJO;
+import com.example.bank.statements.service.PlasticCardService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

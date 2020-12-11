@@ -1,8 +1,7 @@
 package com.example.bank;
 
-import com.example.bank.payload.request.MoneyRepaid;
-import com.example.bank.repository.StatementRepository;
-import com.example.bank.service.StatementService;
+import com.example.bank.statements.payload.request.MoneyRepaid;
+import com.example.bank.statements.service.StatementService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

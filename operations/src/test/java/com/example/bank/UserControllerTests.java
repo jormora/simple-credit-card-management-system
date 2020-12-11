@@ -1,8 +1,9 @@
 package com.example.bank;
 
-import com.example.bank.model.User;
-import com.example.bank.pojo.UserPOJO;
-import com.example.bank.service.UserService;
+import com.example.bank.operations.model.User;
+import com.example.bank.operations.OperationsApplication;
+import com.example.bank.operations.pojo.UserPOJO;
+import com.example.bank.operations.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
