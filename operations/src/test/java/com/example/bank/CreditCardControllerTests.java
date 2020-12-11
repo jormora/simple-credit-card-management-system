@@ -19,6 +19,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.OffsetDateTime;
 import java.util.List;
 
@@ -68,7 +70,7 @@ public class CreditCardControllerTests {
     }
 
     void withdrawManual(CreditCard creditCard) {
-        Long amount = Math.max(0L, creditCard.getInitialLimit() - creditCard.getUsedLimit());
+        BigDecimal amount = Math.max(0L, creditCard.getInitialLimit() - creditCard.getUsedLimit());
         Withdrawal withdrawal = new Withdrawal();
         withdrawal.setId(123L);
         withdrawal.setCreditCardW(creditCard);

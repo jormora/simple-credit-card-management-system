@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.OffsetDateTime;
 
 @Entity
@@ -11,6 +13,7 @@ import java.time.OffsetDateTime;
 public class Withdrawal implements Serializable {
 
     @Id
+
     private Long id;
 
     @JsonIgnore
@@ -18,7 +21,7 @@ public class Withdrawal implements Serializable {
     @JoinColumn(name = "credit_card")
     private CreditCard creditCardW;
 
-    private Long amount;
+    private BigDecimal amount;
 
     @Column(name = "date_time", columnDefinition = "DATETIME")
     private OffsetDateTime dateTime;
@@ -39,11 +42,11 @@ public class Withdrawal implements Serializable {
         this.creditCardW = creditCardW;
     }
 
-    public Long getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(Long amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 

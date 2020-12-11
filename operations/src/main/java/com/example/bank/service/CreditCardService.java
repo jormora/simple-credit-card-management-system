@@ -13,16 +13,16 @@ public class CreditCardService {
         this.creditCardRepository = creditCardRepository;
     }
 
-    public CreditCard findById(Long id) {
-        return this.creditCardRepository.findById(id).orElse(null);
+    public CreditCard findByCardNo(String cardNo) {
+        return this.creditCardRepository.findById(cardNo).orElse(null);
     }
 
     public CreditCard save(CreditCard creditCard) {
         return this.creditCardRepository.save(creditCard);
     }
 
-    public void deleteById(Long id) {
-        this.creditCardRepository.deleteById(id);
+    public void deleteByCardNo(String cardNo) {
+        this.creditCardRepository.deleteById(cardNo);
     }
 
 }

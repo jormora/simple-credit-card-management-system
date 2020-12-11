@@ -1,14 +1,14 @@
 package com.example.bank.model;
 
-import com.example.bank.payload.request.Withdrawal;
-
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.math.BigDecimal;
 
 @Entity
 public class Statement {
     @Id
+    @GeneratedValue
     private int id;
     private String cardNr;
     private BigDecimal amount;

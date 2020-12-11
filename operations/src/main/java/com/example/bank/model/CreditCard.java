@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Set;
 
 @Entity
@@ -11,22 +12,22 @@ import java.util.Set;
 public class CreditCard implements Serializable {
 
     @Id
-    private Long id;
+    private String CardNo;
 
     @JsonIgnore
     @OneToOne(mappedBy = "creditCard")
     private User user;
 
-    private Long initialLimit;
+    private BigDecimal initialLimit;
 
-    private Long usedLimit;
+    private BigDecimal usedLimit;
 
     @JsonIgnore
     @OneToMany(mappedBy = "creditCardW")
     private Set<Withdrawal> withdrawals;
 
-    public boolean isThereEnoughMoneyToWithdraw(Long amount) {
-        Long available = this.initialLimit - this.usedLimit;
+    public boolean isThereEnoughMoneyToWithdraw(BigDecimal amount) {
+        BigDecimal available = this.initialLimit.subtract(this.usedLimit);
         return available.compareTo(amount) >= 0;
     }
 
@@ -34,20 +35,20 @@ public class CreditCard implements Serializable {
         return this.usedLimit >= amount;
     }
 
-    public void withdraw(Long amount) {
-        this.usedLimit = this.usedLimit + amount;
+    public void withdraw(BigDecimal amount) {
+        this.usedLimit = this.usedLimit.add(amount);
     }
 
     public void chargeBack(Long amount) {
         this.usedLimit = this.usedLimit - amount;
     }
 
-    public Long getId() {
-        return id;
+    public String getCardNo() {
+        return CardNo;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setCardNo(String cardNo) {
+        CardNo = cardNo;
     }
 
     public User getUser() {
@@ -58,19 +59,19 @@ public class CreditCard implements Serializable {
         this.user = user;
     }
 
-    public Long getInitialLimit() {
+    public BigDecimal getInitialLimit() {
         return initialLimit;
     }
 
-    public void setInitialLimit(Long initialLimit) {
+    public void setInitialLimit(BigDecimal initialLimit) {
         this.initialLimit = initialLimit;
     }
 
-    public Long getUsedLimit() {
+    public BigDecimal getUsedLimit() {
         return usedLimit;
     }
 
-    public void setUsedLimit(Long usedLimit) {
+    public void setUsedLimit(BigDecimal usedLimit) {
         this.usedLimit = usedLimit;
     }
 

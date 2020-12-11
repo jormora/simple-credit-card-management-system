@@ -4,12 +4,13 @@ import com.example.bank.model.CreditCard;
 import com.example.bank.model.User;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 public class CreditCardPOJO implements Serializable {
 
     private Long id;
 
-    private Long initialLimit;
+    private BigDecimal initialLimit;
 
     public Long getId() {
         return id;
@@ -19,11 +20,11 @@ public class CreditCardPOJO implements Serializable {
         this.id = id;
     }
 
-    public Long getInitialLimit() {
+    public BigDecimal getInitialLimit() {
         return initialLimit;
     }
 
-    public void setInitialLimit(Long initialLimit) {
+    public void setInitialLimit(BigDecimal initialLimit) {
         this.initialLimit = initialLimit;
     }
 

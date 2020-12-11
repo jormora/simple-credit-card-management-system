@@ -20,11 +20,7 @@ public class CreditCardController {
 
     private static final String CREDIT_CARD_NOT_FOUND = "Tarjeta de crédito no encontrada";
 
-    private static final String NOT_ENOUGH_BALANCE = "La tarjeta no tiene balance suficiente para el retiro";
-
     private static final String AMOUNT_IS_GREATER_THAN_USED_LIMIT = "La cantidad para pagar es mayor que la deuda";
-
-    private static final String SUCCESSFUL_WITHDRAW = "Retiro exitoso";
 
     private static final String SUCCESSFUL_PAYMENT = "Pago exitoso";
 
@@ -63,41 +59,7 @@ public class CreditCardController {
         return ResponseEntity.ok(creditCard);
     }
 
-    @GetMapping(path = "/credit-card/{id}/withdrawals")
-    public ResponseEntity<List<Withdrawal>> getCreditCardWithdrawals(@PathVariable Long id) {
-        CreditCard creditCard = this.creditCardService.findById(id);
-        if (creditCard == null) {
-            LOGGER.info(CREDIT_CARD_NOT_FOUND);
-            return ResponseEntity.badRequest().body(null);
-        }
-        List<Withdrawal> withdrawals = this.withdrawalService.findAllByCreditCard(creditCard);
-        return ResponseEntity.ok(withdrawals);
-    }
 
-    @PatchMapping(path = "/credit-card/{id}/withdraw/{code}/{amount}")
-    public ResponseEntity<String> withdraw(@PathVariable Long id, @PathVariable Long code, @PathVariable Long amount) {
-        CreditCard creditCard = this.creditCardService.findById(id);
-        if (creditCard == null) {
-            LOGGER.info(CREDIT_CARD_NOT_FOUND);
-            return ResponseEntity.badRequest().body(CREDIT_CARD_NOT_FOUND);
-        }
-        if (!creditCard.isThereEnoughMoneyToWithdraw(amount)) {
-            this.statementProducer.send("Unsuccessful withdraw");
-            LOGGER.info(NOT_ENOUGH_BALANCE);
-            return ResponseEntity.badRequest().body(NOT_ENOUGH_BALANCE);
-        }
-        Withdrawal withdrawal = new Withdrawal();
-        withdrawal.setId(code);
-        withdrawal.setCreditCardW(creditCard);
-        withdrawal.setAmount(amount);
-        withdrawal.setDateTime(OffsetDateTime.now());
-        this.withdrawalService.save(withdrawal);
-        creditCard.withdraw(amount);
-        this.creditCardService.save(creditCard);
-
-        this.statementProducer.send("Successful withdraw");
-        return ResponseEntity.ok(SUCCESSFUL_WITHDRAW);
-    }
 
     @PatchMapping(path = "/credit-card/{id}/charge-back/{amount}")
     public ResponseEntity<String> chargeBack(@PathVariable Long id, @PathVariable Long amount) {
