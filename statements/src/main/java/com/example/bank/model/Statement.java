@@ -1,5 +1,7 @@
 package com.example.bank.model;
 
+import com.example.bank.payload.request.Withdrawal;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.math.BigDecimal;

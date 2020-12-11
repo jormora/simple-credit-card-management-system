@@ -5,10 +5,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface StatementRepository extends CrudRepository<Statement, String> {
-    //revisar
-    @Query("select s from Statement s order by s.id ")
-    Statement findLastByCardNr(String cardNr);
+    Statement findFirstByCardNrOrderByIdDesc(String cardNr);
+
+    List<Statement> findByClosedAndCardNr(boolean closed, String cardNr);
 
 }

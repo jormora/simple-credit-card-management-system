@@ -2,6 +2,7 @@ package com.example.bank;
 
 import com.example.bank.payload.request.MoneyRepaid;
 import com.example.bank.repository.StatementRepository;
+import com.example.bank.service.StatementService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class MoneyRepaidListenerTest {
     @Autowired
     Sink sink;
     @Autowired
-    StatementRepository statementRepository;
+    StatementService statementService;
 
     @Test
     public void should_close_the_statement_when_money_repaid_event_happens() {
@@ -30,7 +31,7 @@ public class MoneyRepaidListenerTest {
                 .send(new GenericMessage<>(new MoneyRepaid(ANY_CARD_NR, TEN)));
 
         // then
-        assertThat(statementRepository
+        assertThat(statementService
                 .findLastByCardNr(ANY_CARD_NR).isClosed()).isTrue();
     }
 }
