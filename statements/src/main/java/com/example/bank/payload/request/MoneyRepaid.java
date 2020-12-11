@@ -3,11 +3,19 @@ package com.example.bank.payload.request;
 import java.math.BigDecimal;
 
 public class MoneyRepaid {
-    final String cardNo;
-    final BigDecimal amount;
+    private final String cardNo;
+    private final BigDecimal amount;
 
     public MoneyRepaid(String cardNo, BigDecimal amount) {
         this.cardNo = cardNo;
         this.amount = amount;
+    }
+
+    public String getCardNo() {
+        return cardNo;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
     }
 }
