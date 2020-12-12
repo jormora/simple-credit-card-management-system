@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface StatementRepository extends CrudRepository<Statement, String> {
+public interface StatementRepository extends CrudRepository<Statement, Long> {
     Statement findFirstByCardNrOrderByIdDesc(String cardNr);
 
     List<Statement> findByClosedAndCardNr(boolean closed, String cardNr);

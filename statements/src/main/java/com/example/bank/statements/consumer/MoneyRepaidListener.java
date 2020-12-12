@@ -15,13 +15,20 @@ import org.springframework.stereotype.Component;
 public class MoneyRepaidListener {
 
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(MoneyRepaidListener.class);
-    private StatementRepository statementService;
+    private final StatementRepository statementService;
 
-    @StreamListener(target = Sink.INPUT, condition = "headers['type']=='create'")
-    public void handle(@Payload MoneyRepaid moneyRepaid) {
-        //LOGGER.info("Mensaje recibido: " + message);
-        Statement statement = statementService.findFirstByCardNrOrderByIdDesc(moneyRepaid.getCardNo());
-        statement.setClosed(true);
+    public MoneyRepaidListener(StatementRepository statementService) {
+        this.statementService = statementService;
+    }
+
+    @StreamListener(target = Sink.INPUT, condition = "headers['type']=='close'")
+    public void close(@Payload MoneyRepaid moneyRepaid) {
+        Statement statement = this.statementService.findFirstByCardNrOrderByIdDesc(moneyRepaid.getCardNo());
+        if (statement != null) {
+            statement.setClosed(true);
+            this.statementService.save(statement);
+            LOGGER.info("Statement closed");
+        }
     }
 
 }

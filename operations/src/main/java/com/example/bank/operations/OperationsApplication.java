@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class OperationsApplication {
 
-	// Commands to run zookeeper and kafka:
+	// Commands to run zookeeper and kafka on windows:
 	// - zkserver (any console)
 	// - .\bin\windows\kafka-server-start.bat .\config\server.properties
 	public static void main(String[] args) {

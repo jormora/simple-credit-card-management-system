@@ -1,13 +1,14 @@
 package com.example.bank.operations.pojo;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class RepaymentRequest {
+public class RepaymentRequest implements Serializable {
 
     private BigDecimal amount;
 
-    RepaymentRequest(BigDecimal amount) {
-        this.amount = amount;
+    RepaymentRequest() {
+
     }
 
     public BigDecimal getAmount() {

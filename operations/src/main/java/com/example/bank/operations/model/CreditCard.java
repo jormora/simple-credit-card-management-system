@@ -12,11 +12,9 @@ import java.util.Set;
 public class CreditCard implements Serializable {
 
     @Id
-    private String CardNo;
+    private String cardNo;
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "creditCard")
-    private User user;
+    private String userId;
 
     private BigDecimal initialLimit;
 
@@ -44,19 +42,19 @@ public class CreditCard implements Serializable {
     }
 
     public String getCardNo() {
-        return CardNo;
+        return cardNo;
     }
 
     public void setCardNo(String cardNo) {
-        CardNo = cardNo;
+        this.cardNo = cardNo;
     }
 
-    public User getUser() {
-        return user;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public BigDecimal getInitialLimit() {

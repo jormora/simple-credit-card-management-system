@@ -9,10 +9,18 @@ import java.math.BigDecimal;
 public class Statement {
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
     private String cardNr;
     private BigDecimal amount;
     private boolean closed;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getCardNr() {
         return cardNr;

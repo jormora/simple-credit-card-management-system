@@ -3,8 +3,12 @@ package com.example.bank.operations.pojo;
 import java.math.BigDecimal;
 
 public class MoneyRepaid {
-    private final String cardNo;
-    private final BigDecimal amount;
+    private String cardNo;
+    private BigDecimal amount;
+
+    public MoneyRepaid() {
+
+    }
 
     public MoneyRepaid(String cardNo, BigDecimal amount) {
         this.cardNo = cardNo;

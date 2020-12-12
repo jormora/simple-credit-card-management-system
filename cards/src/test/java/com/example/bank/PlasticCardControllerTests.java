@@ -1,8 +1,9 @@
 package com.example.bank;
 
-import com.example.bank.model.PlasticCard;
-import com.example.bank.operations.pojo.PlasticCardPOJO;
-import com.example.bank.statements.service.PlasticCardService;
+import com.example.bank.cards.CardsApplication;
+import com.example.bank.cards.model.PlasticCard;
+import com.example.bank.cards.pojo.PlasticCardPOJO;
+import com.example.bank.cards.service.PlasticCardService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,11 +44,9 @@ public class PlasticCardControllerTests {
 
     PlasticCard createPlasticCard() {
         PlasticCard plasticCard = new PlasticCard();
-        plasticCard.setId(1);
-        plasticCard.setCode(123456);
-        plasticCard.setPassword("1234");
-        plasticCard.setOwnerName("Owner");
-        plasticCard.setUsername("owner");
+        plasticCard.setCardNo("1");
+        plasticCard.setPin(1234);
+        plasticCard.setUserId("user");
         plasticCard.setColor("color");
         plasticCard.setImageURL("URL");
         plasticCard.setExpirationDate(OffsetDateTime.now().plusYears(4L));
@@ -64,24 +63,22 @@ public class PlasticCardControllerTests {
         String uri = "/plastic-card/";
         PlasticCard plasticCard = createPlasticCard();
 
-        this.mockMvc.perform(get(uri + (plasticCard.getId() + 1)))
+        this.mockMvc.perform(get(uri + (plasticCard.getCardNo() + "1")))
                 .andExpect(status().isBadRequest());
 
-        ResultActions resultActions = this.mockMvc.perform(get(uri + plasticCard.getId()))
+        ResultActions resultActions = this.mockMvc.perform(get(uri + plasticCard.getCardNo()))
                 .andExpect(status().isOk());
         MvcResult mvcResult = resultActions.andReturn();
         String response = mvcResult.getResponse().getContentAsString();
         PlasticCard obtained = this.objectMapper.readValue(response, PlasticCard.class);
 
-        assertEquals(plasticCard.getId(), obtained.getId());
-        assertEquals(plasticCard.getCode(), obtained.getCode());
-        assertEquals(plasticCard.getPassword(), obtained.getPassword());
-        assertEquals(plasticCard.getOwnerName(), obtained.getOwnerName());
-        assertEquals(plasticCard.getUsername(), obtained.getUsername());
+        assertEquals(plasticCard.getCardNo(), obtained.getCardNo());
+        assertEquals(plasticCard.getPin(), obtained.getPin());
+        assertEquals(plasticCard.getUserId(), obtained.getUserId());
         assertEquals(plasticCard.getColor(), obtained.getColor());
         assertEquals(plasticCard.getImageURL(), obtained.getImageURL());
 
-        this.plasticCardService.deleteById(plasticCard.getId());
+        this.plasticCardService.deleteByCardNo(plasticCard.getCardNo());
     }
 
     @Test
@@ -90,16 +87,16 @@ public class PlasticCardControllerTests {
         String uri2 = "/change-color/";
         PlasticCard plasticCard = createPlasticCard();
 
-        this.mockMvc.perform(patch(uri1 + (plasticCard.getId() + 1) + uri2 + "yellow"))
+        this.mockMvc.perform(patch(uri1 + (plasticCard.getCardNo() + "1") + uri2 + "yellow"))
                 .andExpect(status().isBadRequest());
 
-        this.mockMvc.perform(patch(uri1 + plasticCard.getId() + uri2 + "yellow"))
+        this.mockMvc.perform(patch(uri1 + plasticCard.getCardNo() + uri2 + "yellow"))
                 .andExpect(status().isOk());
 
-        PlasticCard modified = this.plasticCardService.findById(plasticCard.getId());
+        PlasticCard modified = this.plasticCardService.findByCardNo(plasticCard.getCardNo());
         assertEquals("yellow", modified.getColor());
 
-        this.plasticCardService.deleteById(modified.getId());
+        this.plasticCardService.deleteByCardNo(modified.getCardNo());
     }
 
     @Test
@@ -108,16 +105,16 @@ public class PlasticCardControllerTests {
         String uri2 = "/change-image/";
         PlasticCard plasticCard = createPlasticCard();
 
-        this.mockMvc.perform(patch(uri1 + (plasticCard.getId() + 1) + uri2 + "new URL"))
+        this.mockMvc.perform(patch(uri1 + (plasticCard.getCardNo() + "1") + uri2 + "new URL"))
                 .andExpect(status().isBadRequest());
 
-        this.mockMvc.perform(patch(uri1 + plasticCard.getId() + uri2 + "new URL"))
+        this.mockMvc.perform(patch(uri1 + plasticCard.getCardNo() + uri2 + "new URL"))
                 .andExpect(status().isOk());
 
-        PlasticCard modified = this.plasticCardService.findById(plasticCard.getId());
+        PlasticCard modified = this.plasticCardService.findByCardNo(plasticCard.getCardNo());
         assertEquals("new URL", modified.getImageURL());
 
-        this.plasticCardService.deleteById(modified.getId());
+        this.plasticCardService.deleteByCardNo(modified.getCardNo());
     }
 
     @Test
@@ -125,23 +122,21 @@ public class PlasticCardControllerTests {
         String uri = "/plastic-card/delete/";
         PlasticCard plasticCard = createPlasticCard();
 
-        this.mockMvc.perform(delete(uri + (plasticCard.getId() + 1)))
+        this.mockMvc.perform(delete(uri + (plasticCard.getCardNo() + "1")))
                 .andExpect(status().isBadRequest());
 
-        this.mockMvc.perform(delete(uri + plasticCard.getId()))
+        this.mockMvc.perform(delete(uri + plasticCard.getCardNo()))
                 .andExpect(status().isOk());
 
-        assertNull(this.plasticCardService.findById(plasticCard.getId()));
+        assertNull(this.plasticCardService.findByCardNo(plasticCard.getCardNo()));
     }
 
     @Test
-    void createPlasticCardAfterMessageFromOperationsModule() {
+    void createPlasticCardAfterMessageFromUsersModule() {
         PlasticCardPOJO plasticCardPOJO = new PlasticCardPOJO();
-        plasticCardPOJO.setId(1);
-        plasticCardPOJO.setCode(12345);
-        plasticCardPOJO.setPassword("2345");
-        plasticCardPOJO.setOwnerName("Owner Name");
-        plasticCardPOJO.setUsername("username");
+        plasticCardPOJO.setCardNo("1");
+        plasticCardPOJO.setPin(1234);
+        plasticCardPOJO.setUserId("user");
         plasticCardPOJO.setColor("color");
         plasticCardPOJO.setImageURL("URL");
         plasticCardPOJO.setExpirationDate(OffsetDateTime.now().plusYears(4L));
@@ -150,7 +145,8 @@ public class PlasticCardControllerTests {
             .setHeader("type", "create")
             .setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON_VALUE).build());
 
-        assertNotNull(this.plasticCardService.findById(plasticCardPOJO.getId()));
+        assertNotNull(this.plasticCardService.findByCardNo(plasticCardPOJO.getCardNo()));
+        this.plasticCardService.deleteByCardNo(plasticCardPOJO.getCardNo());
     }
 
 }

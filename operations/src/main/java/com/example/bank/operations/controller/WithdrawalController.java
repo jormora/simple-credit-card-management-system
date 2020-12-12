@@ -43,7 +43,7 @@ public class WithdrawalController {
         return ResponseEntity.ok(withdrawals);
     }
 
-    @PostMapping(path = "/addWithdrawal/{cardNo}")
+    @PostMapping(path = "/add-withdrawal/{cardNo}")
     public ResponseEntity<String> withdraw(@PathVariable String cardNo, @RequestBody WithdrawRequest withdrawRequest) {
         CreditCard creditCard = this.creditCardService.findByCardNo(cardNo);
         if (creditCard == null) {

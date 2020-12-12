@@ -12,7 +12,7 @@ import java.time.OffsetDateTime;
 public class Withdrawal implements Serializable {
 
     @Id
-
+    @GeneratedValue
     private Long id;
 
     @JsonIgnore

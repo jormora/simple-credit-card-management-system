@@ -1,13 +1,15 @@
 package com.example.bank.statements.payload.request;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 
 public class Withdrawal implements Serializable {
 
     private Long id;
-    private Long amount;
+    private String cardNo;
+    private BigDecimal amount;
     private OffsetDateTime dateTime;
 
     public Long getId() {
@@ -18,11 +20,19 @@ public class Withdrawal implements Serializable {
         this.id = id;
     }
 
-    public Long getAmount() {
+    public String getCardNo() {
+        return cardNo;
+    }
+
+    public void setCardNo(String cardNo) {
+        this.cardNo = cardNo;
+    }
+
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(Long amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 

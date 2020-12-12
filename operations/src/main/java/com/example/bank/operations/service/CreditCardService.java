@@ -4,6 +4,8 @@ import com.example.bank.operations.model.CreditCard;
 import com.example.bank.operations.repository.CreditCardRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CreditCardService {
 
@@ -11,6 +13,10 @@ public class CreditCardService {
 
     public CreditCardService(CreditCardRepository creditCardRepository) {
         this.creditCardRepository = creditCardRepository;
+    }
+
+    public List<CreditCard> findAll() {
+        return (List<CreditCard>) this.creditCardRepository.findAll();
     }
 
     public CreditCard findByCardNo(String cardNo) {
