@@ -2,6 +2,7 @@ package com.example.bank.operations.controller;
 
 import com.example.bank.operations.model.CreditCard;
 import com.example.bank.operations.service.CreditCardService;
+import com.example.bank.operations.service.WithdrawalService;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,8 +24,11 @@ public class CreditCardController {
 
     private final CreditCardService creditCardService;
 
-    public CreditCardController(CreditCardService creditCardService) {
+    private final WithdrawalService withdrawalService;
+
+    public CreditCardController(CreditCardService creditCardService, WithdrawalService withdrawalService) {
         this.creditCardService = creditCardService;
+        this.withdrawalService = withdrawalService;
     }
 
     @GetMapping(path = "/credit-card/{cardNo}")
@@ -54,6 +58,7 @@ public class CreditCardController {
             LOGGER.info(CREDIT_CARD_NOT_FOUND);
             return ResponseEntity.badRequest().body(CREDIT_CARD_NOT_FOUND);
         }
+        this.withdrawalService.deleteAllByCreditCard(creditCard);
         this.creditCardService.deleteByCardNo(cardNo);
         return ResponseEntity.ok(CREDIT_CARD_DELETED);
     }
